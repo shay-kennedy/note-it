@@ -40,7 +40,8 @@ passport.use(new GoogleStrategy({
         User.create({
           googleID: profile.id,
           accessToken: accessToken,
-          fullName: profile.displayName
+          firstName: profile.name.givenName,
+          lastName: profile.name.familyName
         }, function(err, users) {
           return done(err, users);
         });
