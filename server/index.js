@@ -15,14 +15,14 @@ import passport from 'passport';
 import bodyParser from 'body-parser';
 
 // User model
-var User = require('./models/user');
+import User from './models/user';
 
 try {
-  var config = require('../config');
+  import config from '../config';
 } catch (e) {};
 
 // Database Setup
-var db = process.env.DBPATH || config.mongoDB.dbPath;
+const db = process.env.DBPATH || config.mongoDB.dbPath;
 mongoose.connect(db);
 
 app.use(passport.initialize());
@@ -34,15 +34,15 @@ passport.use(new GoogleStrategy({
   clientSecret: process.env.CLIENTSECRET || config.googleAuth.clientSecret,
   callbackURL: process.env.CALLBACKURL || config.googleAuth.callbackURL,
   },
-  function(accessToken, refreshToken, profile, done) {
-    User.findOne({googleID: profile.id}, function(err, user) {
+  (accessToken, refreshToken, profile, done) => {
+    User.findOne({googleID: profile.id}, (err, user) => {
       if (!user) {
         User.create({
           googleID: profile.id,
           accessToken: accessToken,
           firstName: profile.name.givenName,
           lastName: profile.name.familyName
-        }, function(err, users) {
+        }, (err, users) => {
           return done(err, users);
         });
       } else {
@@ -63,7 +63,7 @@ app.get('/auth/google/callback',
     failureRedirect: '/',
     session: false
   }),
-  function(req, res) {
+  (req, res) => {
     res.cookie('accessToken', req.user.accessToken, {expires: 0});
     res.redirect('/');
   }
@@ -71,9 +71,9 @@ app.get('/auth/google/callback',
 
 // Bearer Strategy
 passport.use(new BearerStrategy(
-  function(token, done) {
+  (token, done) => {
     User.findOne({ accessToken: token },
-      function(err, users) {
+      (err, users) => {
         if(err) {
           return done(err)
         }
@@ -86,9 +86,22 @@ passport.use(new BearerStrategy(
   }
 ));
 
-app.get('/logout', function(req, res) {
+// GET: Logout route
+app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
+});
+
+// GET: Retrieve user object
+app.get('/user', passport.authenticate(['bearer', 'anonymous'], {session: false}), (req, res) => {
+  const googleID = req.user.googleID;
+  User.findOne({googleID: googleID}, (err, user) => {
+    if (err) {
+      res.send("Error has occured")
+    } else {
+      res.json(user);
+    }
+  });
 });
 
 console.log(`Server running in ${process.env.NODE_ENV} mode`);
