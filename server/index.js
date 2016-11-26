@@ -18,7 +18,7 @@ import bodyParser from 'body-parser';
 import User from './models/user';
 
 try {
-  import config from '../config';
+  var config = require('../config');
 } catch (e) {};
 
 // Database Setup
