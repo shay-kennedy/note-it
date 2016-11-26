@@ -14,7 +14,7 @@ import BookNotesList from './book-notes-list';
 import DateNotesContainer from './date-notes-container';
 
 
-var routes = (
+const routes = (
 	<Provider store={store}>
 		<Router history={hashHistory} >
 			<Route path="/" component={Main} >
@@ -33,4 +33,4 @@ var routes = (
 );
 
 
-module.exports = routes;
+export default routes;
