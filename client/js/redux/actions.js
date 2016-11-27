@@ -59,7 +59,7 @@ var addCategory = function(category) {
       method: 'put',
       headers: {'Content-type': 'application/json', 'Authorization': 'bearer ' + token},
       body: JSON.stringify({
-        'category': category,
+        'categoryName': category,
         '_id': ObjectID(),
         'items': []
       })

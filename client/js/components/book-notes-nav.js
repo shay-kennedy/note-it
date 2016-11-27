@@ -15,7 +15,6 @@ var BookNotesNav = React.createClass({
 	},
 	render: function(props) {
 		var categoryTabs = this.props.categories.map((cat, index) => {
-			console.log('CAT', cat);
 			return <BookNotesCategory key={index} cat={cat} />
 		});
 		return (
