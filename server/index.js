@@ -123,6 +123,23 @@ app.put('/add-category', passport.authenticate('bearer', {session: false}),
       });
   });
 
+// DELETE: Remove category
+app.delete('/delete-category', passport.authenticate('bearer', {session: false}),
+  function(req, res) {
+    User.findOneAndUpdate({ 'googleID':req.user.googleID },
+                  {
+                    $pull: { 'categories':{'_id':req.body._id} },
+                    $set: {'activeTrip': null}
+                  },
+                  {new: true},
+      function(err, user) {
+        if(err) {
+          return res.send(err)
+        }
+        return res.json(user);
+      });
+  });
+
 // POST: Set activeCategory
 app.put('/set-active-category', passport.authenticate('bearer', {session: false}), 
   (req, res) => {
