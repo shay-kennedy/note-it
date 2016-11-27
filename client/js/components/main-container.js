@@ -1,17 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ContainerNav from './container-nav';
+import actions from '../redux/actions';
+import { connect } from 'react-redux';
+import TitleBar from './title-bar';
 
 
-const MainContainer = (props) => {
-	return(
-		<div id="container">
-			<h1>Note It!</h1>
-			<ContainerNav />
-			{props.children}
-		</div>
-	)
-};
+var MainContainer = React.createClass({
+	componentWillMount: function() {
+		console.log('Main Container will mount');
+		this.props.dispatch(actions.fetchUser());
+	},
+	render: function(props) {
+		return (
+			<div id="container">
+				<TitleBar />
+				<ContainerNav />
+				{this.props.children}
+			</div>
+		)
+	}
+})
 
 
-export default MainContainer;
+var Container = connect()(MainContainer);
+
+module.exports = Container;
