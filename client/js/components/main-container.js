@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ContainerNav from 'container-nav';
+import ContainerNav from './container-nav';
 
 
-const Container = (props) => {
+const MainContainer = (props) => {
 	return(
 		<div id="container">
 			<h1>Note It!</h1>
@@ -14,4 +14,4 @@ const Container = (props) => {
 };
 
 
-export default Container;
+export default MainContainer;

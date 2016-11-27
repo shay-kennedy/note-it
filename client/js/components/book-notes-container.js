@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BookNotesNav from 'book-notes-nav';
+import BookNotesNav from './book-notes-nav';
 
 
 const BookNotesContainer = (props) => {
