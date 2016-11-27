@@ -14,6 +14,13 @@ var UserSchema = new mongoose.Schema({
   },
   lastName: {
     type: String
+  },
+  categories: {
+    type: Array,
+    default: []
+  },
+  activeCategory: {
+    type: String
   }
 });
 

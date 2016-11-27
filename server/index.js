@@ -93,16 +93,35 @@ app.get('/logout', (req, res) => {
 });
 
 // GET: Retrieve user object
-app.get('/user', passport.authenticate(['bearer', 'anonymous'], {session: false}), (req, res) => {
-  const googleID = req.user.googleID;
-  User.findOne({googleID: googleID}, (err, user) => {
-    if (err) {
-      res.send("Error has occured")
-    } else {
-      res.json(user);
-    }
-  });
+app.get('/user', passport.authenticate('bearer', {session: false}), 
+  (req, res) => {
+    const googleID = req.user.googleID;
+    User.findOne({googleID: googleID}, (err, user) => {
+      if (err) {
+        res.send("Error has occured")
+      } else {
+        res.json(user);
+      }
+    });
 });
+
+// POST: Add category
+app.put('/add-category', passport.authenticate('bearer', {session: false}), 
+  (req, res) => {
+    User.findOneAndUpdate(
+            { 'googleID': req.user.googleID },
+            {
+              $push: { 'categories':req.body },
+              $set: { 'activeCategory': req.body._id }
+            },
+            { new:true },
+      (err, user) => {
+        if(err) {
+          return res.send(err)
+        }
+        return res.json(user);
+      });
+  });
 
 console.log(`Server running in ${process.env.NODE_ENV} mode`);
 
