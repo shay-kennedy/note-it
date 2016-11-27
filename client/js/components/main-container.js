@@ -8,7 +8,6 @@ import TitleBar from './title-bar';
 
 var MainContainer = React.createClass({
 	componentWillMount: function() {
-		console.log('Main Container will mount');
 		this.props.dispatch(actions.fetchUser());
 	},
 	render: function(props) {
