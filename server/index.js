@@ -123,6 +123,21 @@ app.put('/add-category', passport.authenticate('bearer', {session: false}),
       });
   });
 
+// POST: Set activeCategory
+app.put('/set-active-category', passport.authenticate('bearer', {session: false}), 
+  (req, res) => {
+    User.findOneAndUpdate(
+            { 'googleID': req.user.googleID },
+            { $set: { 'activeCategory': req.body.activeCategory } },
+            { new:true },
+      (err, user) => {
+        if(err) {
+          return res.send(err)
+        }
+        return res.json(user);
+      });
+  });
+
 console.log(`Server running in ${process.env.NODE_ENV} mode`);
 
 function runServer() {

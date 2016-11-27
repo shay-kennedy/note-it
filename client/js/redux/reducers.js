@@ -14,21 +14,23 @@ const initialState = {
 	activeCategory: null
 };
 
-const reducer = (state, action) => {
+var reducer = function(state, action) {
 	state = state || initialState;
 	switch (action.type) {
 		
 		// Updates state upon fetch user success
 		case actions.FETCH_USER_SUCCESS:
 			console.log('FETCH_USER_SUCCESS');
-			const user = action.user;
-			const newState = Object.assign({}, state, {
+			var user = action.user;
+			console.log('USER', user);
+			var newState = Object.assign({}, state, {
 				googleID: user.googleID,
 				firstName: user.firstName,
 				lastName: user.lastName,
 				categories: user.categories,
 				activeCategory: user.activeCategory
 			});
+			console.log('NEW STATE', newState);
 			return newState;
 		
 		case actions.FETCH_USER_ERROR:
@@ -36,6 +38,7 @@ const reducer = (state, action) => {
 			return state;
 	
 	}
+	console.log('STATE', state);
 	return state;	
 };
 
