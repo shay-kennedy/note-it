@@ -8,7 +8,7 @@ const initialState = {
 	categories: [
 		{
 			items: [],
-			category: ''
+			categoryName: ''
 		}
 	],
 	activeCategory: null

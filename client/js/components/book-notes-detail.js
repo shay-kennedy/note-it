@@ -1,14 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 
 
-const BookNotesDetail = (props) => {
-	return(
-		<div id="book-notes-detail">
-			<p>BOOK NOTES DETAIL PLACEHOLDER</p>
-		</div>
-	)
-};
+var BookNotesDetail = React.createClass({
+	render: function(props) {
+		return (
+			<div className="book-notes-detail">
+				<p>{this.props.item.title}</p>
+				<p>{this.props.item.url}</p>
+				<p>{this.props.item.note}</p>
+			</div>
+		)
+	}
+})
 
 
-export default BookNotesDetail;
+var Container = connect()(BookNotesDetail);
+
+module.exports = Container;

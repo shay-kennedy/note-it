@@ -1,6 +1,7 @@
 import React from 'react';
 import actions from '../redux/actions';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 
 var BookNotesCategory = React.createClass({
@@ -10,7 +11,7 @@ var BookNotesCategory = React.createClass({
 	render: function(props) {
 		return (
 			<div>
-				<p onClick={this.setActiveCategory} >{this.props.cat.category}</p>
+				<Link to={'/notes/book-notes/list'} onClick={this.setActiveCategory} >{this.props.cat.categoryName}</Link>
 			</div>
 		)
 	}
