@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 const BookNotesLanding = (props) => {
 	return(
 		<div id="book-notes-landing">
-			<p>Some text.</p>
+			<p>BOOK NOTES LANDING PLACEHOLDER</p>
 		</div>
 	)
 };
