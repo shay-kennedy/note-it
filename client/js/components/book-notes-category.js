@@ -6,10 +6,10 @@ import { Link } from 'react-router';
 
 var BookNotesCategory = React.createClass({
 	setActiveCategory: function() {
-		this.props.dispatch(actions.setActiveCategory(this.props.cat._id));
+		this.props.dispatch(actions.setActiveCategory(this.props.cat.cat_id));
 	},
 	deleteCategory: function() {
-		this.props.dispatch(actions.deleteCategory(this.props.cat._id));
+		this.props.dispatch(actions.deleteCategory(this.props.cat.cat_id));
 	},
 	render: function(props) {
 		return (

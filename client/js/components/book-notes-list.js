@@ -5,8 +5,21 @@ import BookNotesDetail from './book-notes-detail';
 
 
 var BookNotesList = React.createClass({
+	addNote: function(e) {
+		e.preventDefault();
+		var title = prompt('Note title:');
+		var website = prompt('Note url:');
+		var pattern = /^((http|https|ftp):\/\/)/;
+		if(!pattern.test(website)) {
+    	website = "http://" + website;
+		}
+		var note = prompt('Note note:');
+		if (title == null) {
+			return;
+		};
+		this.props.dispatch(actions.addNote(title, website, note, this.props.activeCategory));
+	},
 	render: function(props) {
-		console.log('BOOKNOTESLIST PROPS', this.props);
 		if (this.props.activeCategory == null) {
 			return (
 				<div>
@@ -18,14 +31,16 @@ var BookNotesList = React.createClass({
 			return (
 				<div>
 					<p>Add a Book-Note to this category.</p>
+					<input type="button" value="Add Note" onClick={this.addNote} />
 				</div>
 			)
 		};
 		var noteList = this.props.category.items.map((item) => {
-			return (<BookNotesDetail key={item._id} item={item} />)
+			return (<BookNotesDetail key={item.note_id} item={item} activeCategory={this.props.activeCategory} />)
 		});
 		return (
 			<div id="book-notes-list">
+				<input type="button" value="Add Note" onClick={this.addNote} />
 				{noteList}
 			</div>
 		)
@@ -36,7 +51,7 @@ var BookNotesList = React.createClass({
 var mapStateToProps = function(state, props) {
   return {
     category: state.categories.find((cat) => {
-      if(state.activeCategory == cat._id) {
+      if(state.activeCategory == cat.cat_id) {
         return cat
       }
     }),

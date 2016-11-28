@@ -112,7 +112,7 @@ app.put('/add-category', passport.authenticate('bearer', {session: false}),
             { 'googleID': req.user.googleID },
             {
               $push: { 'categories':req.body },
-              $set: { 'activeCategory': req.body._id }
+              $set: { 'activeCategory': req.body.cat_id }
             },
             { new:true },
       (err, user) => {
@@ -128,7 +128,7 @@ app.delete('/delete-category', passport.authenticate('bearer', {session: false})
   function(req, res) {
     User.findOneAndUpdate({ 'googleID':req.user.googleID },
                   {
-                    $pull: { 'categories':{'_id':req.body._id} },
+                    $pull: { 'categories':{'cat_id':req.body.cat_id} },
                     $set: {'activeTrip': null}
                   },
                   {new: true},
@@ -154,6 +154,37 @@ app.put('/set-active-category', passport.authenticate('bearer', {session: false}
         return res.json(user);
       });
   });
+
+// PUT: Add note to existing category
+app.put('/add-note/:_id', passport.authenticate('bearer', {session: false}),
+  function(req, res) {
+    var _id = req.params._id;
+    var googleID = req.user.googleID;
+    User.findOneAndUpdate( { 'googleID':googleID, 'categories.cat_id':_id },
+                  { $push : { 'categories.$.items': req.body } },
+                  { new: true },
+      function(err, user) {
+        if(err) {
+          return res.send(err)
+        }
+        return res.json(user);
+      });
+  });
+
+// DELETE: Remove note from existing category
+app.delete('/delete-note/:_id', passport.authenticate('bearer', {session: false}),
+  function(req, res) {
+    User.findOneAndUpdate( { 'googleID':req.user.googleID, 'categories.cat_id': req.params._id },
+                  { $pull : { 'categories.$.items':{ 'note_id': req.body.note_id } } },
+                  { new: true },
+      function(err, user) {
+        if(err) {
+          return res.send(err)
+        }
+        return res.json(user);
+      });
+  });
+
 
 console.log(`Server running in ${process.env.NODE_ENV} mode`);
 
