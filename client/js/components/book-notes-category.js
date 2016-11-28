@@ -14,8 +14,8 @@ var BookNotesCategory = React.createClass({
 	render: function(props) {
 		return (
 			<div>
-				<Link to={'/notes/book-notes/list'} onClick={this.setActiveCategory} >{this.props.cat.categoryName}</Link>
-				<Link to={'/notes/book-notes'} onClick={this.deleteCategory}>DELETE</Link>
+				<Link to={'/knowtes/list'} onClick={this.setActiveCategory} >{this.props.cat.categoryName}</Link>
+				<Link to={'/knowtes'} onClick={this.deleteCategory}>DELETE</Link>
 			</div>
 		)
 	}

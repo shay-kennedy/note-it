@@ -65,7 +65,7 @@ app.get('/auth/google/callback',
   }),
   (req, res) => {
     res.cookie('accessToken', req.user.accessToken, {expires: 0});
-    res.redirect('/#/notes');
+    res.redirect('/#/knowtes');
   }
 );
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import ContainerNav from './container-nav';
-import actions from '../redux/actions';
 import { connect } from 'react-redux';
+import actions from '../redux/actions';
 import TitleBar from './title-bar';
+import MainNav from './main-nav';
+import BookNotesNav from './book-notes-nav';
 
 
 var MainContainer = React.createClass({
@@ -14,7 +14,8 @@ var MainContainer = React.createClass({
 		return (
 			<div id="container">
 				<TitleBar />
-				<ContainerNav />
+				<MainNav />
+				<BookNotesNav />
 				{this.props.children}
 			</div>
 		)
