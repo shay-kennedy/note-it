@@ -41,7 +41,9 @@ passport.use(new GoogleStrategy({
           googleID: profile.id,
           accessToken: accessToken,
           firstName: profile.name.givenName,
-          lastName: profile.name.familyName
+          lastName: profile.name.familyName,
+          displayName: profile.displayName,
+          email: profile.emails[0].value
         }, (err, users) => {
           return done(err, users);
         });
@@ -54,7 +56,7 @@ passport.use(new GoogleStrategy({
 
 app.get('/auth/google',
   passport.authenticate('google', {
-    scope: ['profile']
+    scope: ['profile', 'email']
   })
 );
 

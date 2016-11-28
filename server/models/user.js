@@ -15,6 +15,12 @@ var UserSchema = new mongoose.Schema({
   lastName: {
     type: String
   },
+  displayName: {
+    type: String
+  },
+  email: {
+    type: String
+  },
   categories: {
     type: Array,
     default: []
