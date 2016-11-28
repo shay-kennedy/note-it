@@ -22,7 +22,6 @@ var reducer = function(state, action) {
 		case actions.FETCH_USER_SUCCESS:
 			console.log('FETCH_USER_SUCCESS');
 			var user = action.user;
-			console.log('USER', user);
 			var newState = Object.assign({}, state, {
 				googleID: user.googleID,
 				firstName: user.firstName,

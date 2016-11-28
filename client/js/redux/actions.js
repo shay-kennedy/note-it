@@ -49,7 +49,7 @@ var fetchUser = function() {
   }
 };
 
-// PUT request to add trip
+// PUT request to add category
 var addCategory = function(category) {
   return function(dispatch) {
     var token = Cookies.get('accessToken');
@@ -60,7 +60,7 @@ var addCategory = function(category) {
       headers: {'Content-type': 'application/json', 'Authorization': 'bearer ' + token},
       body: JSON.stringify({
         'categoryName': category,
-        '_id': ObjectID(),
+        'cat_id': ObjectID(),
         'items': []
       })
     }
@@ -86,7 +86,7 @@ var addCategory = function(category) {
 };
 
 // DELETE request to remove entire category
-var deleteCategory = function(categoryID) {
+var deleteCategory = function(cat_id) {
   return function(dispatch) {
     var token = Cookies.get('accessToken');
     var url = '/delete-category';
@@ -95,7 +95,7 @@ var deleteCategory = function(categoryID) {
     method: 'delete',
     headers: {'Content-type': 'application/json', 'Authorization': 'bearer ' + token},
     body: JSON.stringify({
-      '_id': categoryID
+      'cat_id': cat_id
     })
   }
     ).then(function(response) {
@@ -153,6 +153,80 @@ var setActiveCategory = function(activeCategory) {
   }
 };
 
+// PUT request to add note
+var addNote = function(title, website, note, cat_id) {
+  return function(dispatch) {
+    var token = Cookies.get('accessToken');
+    var url = `add-note/${cat_id}`;
+  return fetch(url,
+  {
+    method: 'put',
+    headers: {'Content-type': 'application/json', 'Authorization': 'bearer ' + token},
+    body: JSON.stringify({
+      'title': title,
+      'url': website,
+      'note': note,
+      'note_id': ObjectID()
+    })
+  }
+    ).then(function(response) {
+      if(response.status < 200 || response.status > 300) {
+        var error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+      }
+      return response.json();
+    })
+    .then(function(user) {
+      return dispatch(
+        fetchUserSuccess(user)
+        );
+    })
+    .catch(function(error) {
+      return dispatch(
+        fetchUserError(error)
+        );
+    });
+  }
+};
+
+// DELETE request to delete note
+var deleteNote = function(cat_id, note_id) {
+  console.log('DELETE NOTE ACTION HIT', cat_id);
+  return function(dispatch) {
+    var token = Cookies.get('accessToken');
+    var url = `delete-note/${cat_id}`;
+  return fetch(url,
+  {
+    method: 'delete',
+    headers: {'Content-type': 'application/json', 'Authorization': 'bearer ' + token},
+    body: JSON.stringify({
+      'note_id': note_id
+    })
+  }
+    ).then(function(response) {
+      if(response.status < 200 || response.status > 300) {
+        var error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+      }
+      return response.json();
+    })
+    .then(function(user) {
+      console.log('USER SUCCESS DELETE NOTE', user);
+      return dispatch(
+        fetchUserSuccess(user)
+        );
+    })
+    .catch(function(error) {
+      console.log('USER SUCCESS DELETE ERR');
+      return dispatch(
+        fetchUserError(error)
+        );
+    });
+  }
+};
+
 
 exports.fetchUser = fetchUser;
 exports.fetchUserSuccess = fetchUserSuccess;
@@ -162,4 +236,5 @@ exports.FETCH_USER_ERROR = FETCH_USER_ERROR;
 exports.addCategory = addCategory;
 exports.deleteCategory = deleteCategory;
 exports.setActiveCategory = setActiveCategory;
-
+exports.addNote = addNote;
+exports.deleteNote = deleteNote;
