@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 
-var BookNotesCategory = React.createClass({
+var BookmarksCategory = React.createClass({
 	setActiveCategory: function() {
 		this.props.dispatch(actions.setActiveCategory(this.props.cat.cat_id));
 	},
@@ -13,15 +13,15 @@ var BookNotesCategory = React.createClass({
 	},
 	render: function(props) {
 		return (
-			<div>
-				<Link to={'/knowtes/list'} onClick={this.setActiveCategory} >{this.props.cat.categoryName}</Link>
-				<Link to={'/knowtes'} onClick={this.deleteCategory}>DELETE</Link>
+			<div id="bookmarks-category">
+				<Link to={'/knowtes/bookmarks/list'} onClick={this.setActiveCategory} >{this.props.cat.categoryName}</Link>
+				<Link to={'/knowtes/bookmarks'} onClick={this.deleteCategory}>DELETE</Link>
 			</div>
 		)
 	}
 })
 
 
-var Container = connect()(BookNotesCategory);
+var Container = connect()(BookmarksCategory);
 
 module.exports = Container;

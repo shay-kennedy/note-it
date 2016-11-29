@@ -1,11 +1,11 @@
 import React from 'react';
 import actions from '../redux/actions';
 import { connect } from 'react-redux';
-import BookNotesDetail from './book-notes-detail';
+import BookmarksDetail from './bookmarks-detail';
 
 
-var BookNotesList = React.createClass({
-	addNote: function(e) {
+var BookmarksList = React.createClass({
+	addBookmark: function(e) {
 		e.preventDefault();
 		var title = prompt('Note title:');
 		var website = prompt('Note url:');
@@ -17,7 +17,7 @@ var BookNotesList = React.createClass({
 		if (title == null) {
 			return;
 		};
-		this.props.dispatch(actions.addNote(title, website, note, this.props.activeCategory));
+		this.props.dispatch(actions.addBookmark(title, website, note, this.props.activeCategory));
 	},
 	render: function(props) {
 		if (this.props.activeCategory == null) {
@@ -30,18 +30,18 @@ var BookNotesList = React.createClass({
 		if (this.props.category.items.length == 0) {
 			return (
 				<div>
-					<p>Add a Book-Note to this category.</p>
-					<input type="button" value="Add Note" onClick={this.addNote} />
+					<p>Add a Bookmark to this category.</p>
+					<input type="button" value="Add Note" onClick={this.addBookmark} />
 				</div>
 			)
 		};
-		var noteList = this.props.category.items.map((item) => {
-			return (<BookNotesDetail key={item.note_id} item={item} activeCategory={this.props.activeCategory} />)
+		var bookmarkList = this.props.category.items.map((item) => {
+			return (<BookmarksDetail key={item.bookmark_id} item={item} activeCategory={this.props.activeCategory} />)
 		});
 		return (
-			<div id="book-notes-list">
-				<input type="button" value="Add Note" onClick={this.addNote} />
-				{noteList}
+			<div id="bookmark-list">
+				<input type="button" value="Add Note" onClick={this.addBookmark} />
+				{bookmarkList}
 			</div>
 		)
 	}
@@ -59,6 +59,6 @@ var mapStateToProps = function(state, props) {
   };
 };
 
-var Container = connect(mapStateToProps)(BookNotesList);
+var Container = connect(mapStateToProps)(BookmarksList);
 
 module.exports = Container;

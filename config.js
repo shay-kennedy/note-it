@@ -6,7 +6,7 @@ module.exports = {
     'callbackURL'   : 'http://localhost:8080/auth/google/callback'
   },
   'mongoDB' : {
-  	'dbPath'				: 'mongodb://shay-kennedy:phoenix09@ds163397.mlab.com:63397/note-it'
+  	'dbPath'				: 'mongodb://shay-kennedy:phoenix09@ds113628.mlab.com:13628/knowtes'
   }
 
 };
