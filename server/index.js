@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 8080;
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as BearerStrategy } from 'passport-http-bearer';
 import passport from 'passport';
+import gcal from 'google-calendar';
 import bodyParser from 'body-parser';
 
 // User model
@@ -56,7 +57,7 @@ passport.use(new GoogleStrategy({
 
 app.get('/auth/google',
   passport.authenticate('google', {
-    scope: ['profile', 'email']
+    scope: ['profile', 'email', 'openid', 'https://www.googleapis.com/auth/calendar.readonly']
   })
 );
 
@@ -186,6 +187,28 @@ app.delete('/delete-bookmark/:_id', passport.authenticate('bearer', {session: fa
         return res.json(user);
       });
   });
+
+// GET: Retrieve calendar events
+app.get('/calendar', passport.authenticate('bearer', {session: false}), 
+  (req, res) => {
+    var google_calendar = new gcal.GoogleCalendar(req.user.accessToken);
+    var calendarID = 'primary';
+    var query = {
+      maxResults: 10,
+      singleEvents: true,
+      orderBy: 'startTime',
+      timeMin: (new Date()).toISOString(),
+      fields: 'items(description,htmlLink,id,location,organizer(displayName,email),start(date,dateTime),summary)'
+    };
+    google_calendar.calendarList.list(function(err, calendarList) {
+      google_calendar.events.list(calendarID, query, function(err, calendarList) {
+        if (err) {
+          return res.send(err)
+        }
+        return res.json(calendarList)
+      });
+    });
+});
 
 
 console.log(`Server running in ${process.env.NODE_ENV} mode`);
