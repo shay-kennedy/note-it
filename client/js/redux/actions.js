@@ -19,6 +19,22 @@ var fetchUserError = function(error) {
   };
 };
 
+var FETCH_EVENTS_SUCCESS = 'FETCH_EVENTS_SUCCESS';
+var fetchEventsSuccess = function(events) {
+  return {
+    type: FETCH_EVENTS_SUCCESS,
+    events: events
+  };
+};
+
+var FETCH_EVENTS_ERROR = 'FETCH_EVENTS_ERROR';
+var fetchEventsError = function(error) {
+  return {
+    type: FETCH_EVENTS_ERROR,
+    error: error
+  };
+};
+
 
 // GET request for user info from DB using accessToken
 var fetchUser = function() {
@@ -227,6 +243,36 @@ var deleteBookmark = function(cat_id, bookmark_id) {
   }
 };
 
+// GET request for user's calendar events
+var getCalendarEvents = function() {
+  return function(dispatch) {
+    var token = Cookies.get('accessToken');
+    var headers = new Headers({
+      Authorization: 'bearer ' + token
+    });
+    var url = '/calendar';
+    return fetch(url, {headers: headers}).then(function(response) {
+      if (response.status < 200 || response.status >= 300) {
+        var error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+      }
+      return response.json();
+    })
+    .then(function(events) {
+      console.log("EVENTS!", events);
+      return dispatch(
+        fetchEventsSuccess(events)
+      );
+    })
+    .catch(function(error) {
+      return dispatch(
+        fetchEventsError(error)
+      );
+    });
+  }
+};
+
 
 exports.fetchUser = fetchUser;
 exports.fetchUserSuccess = fetchUserSuccess;
@@ -238,3 +284,8 @@ exports.deleteCategory = deleteCategory;
 exports.setActiveCategory = setActiveCategory;
 exports.addBookmark = addBookmark;
 exports.deleteBookmark = deleteBookmark;
+exports.getCalendarEvents = getCalendarEvents;
+exports.fetchEventsSuccess = fetchEventsSuccess;
+exports.fetchEventsError = fetchEventsError;
+exports.FETCH_EVENTS_SUCCESS = FETCH_EVENTS_SUCCESS;
+exports.FETCH_EVENTS_ERROR = FETCH_EVENTS_ERROR;

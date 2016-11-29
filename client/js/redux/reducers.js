@@ -11,7 +11,8 @@ const initialState = {
 			categoryName: ''
 		}
 	],
-	activeCategory: null
+	activeCategory: null,
+	events: []
 };
 
 var reducer = function(state, action) {
@@ -34,6 +35,19 @@ var reducer = function(state, action) {
 		
 		case actions.FETCH_USER_ERROR:
 			console.log('FETCH_USER_ERROR');
+			return state;
+
+		case actions.FETCH_EVENTS_SUCCESS:
+			console.log('FETCH_EVENTS_SUCCESS');
+			var events = action.events;
+			var newState = Object.assign({}, state, {
+				events: events.items,
+			});
+			console.log('NEW STATE', newState);
+			return newState;
+		
+		case actions.FETCH_EVENTS_ERROR:
+			console.log('FETCH_EVENTS_ERROR');
 			return state;
 	
 	}
