@@ -1,10 +1,10 @@
 import React from 'react';
 import actions from '../redux/actions';
 import { connect } from 'react-redux';
-import BookNotesCategory from './book-notes-category';
+import BookmarksCategory from './bookmarks-category';
 
 
-var BookNotesNav = React.createClass({
+var BookmarksNav = React.createClass({
 	addCategory: function(e) {
 		e.preventDefault();
 		let category = prompt('New category name:');
@@ -15,10 +15,10 @@ var BookNotesNav = React.createClass({
 	},
 	render: function(props) {
 		var categoryTabs = this.props.categories.map((cat, index) => {
-			return <BookNotesCategory key={index} cat={cat} />
+			return <BookmarksCategory key={index} cat={cat} />
 		});
 		return (
-			<div id="book-notes-nav">
+			<div id="bookmarks-nav">
 				{categoryTabs}
 				<p onClick={this.addCategory}>+ NEW</p>
 			</div>
@@ -33,6 +33,6 @@ var mapStateToProps = function(state, props) {
 	}
 }
 
-var Container = connect(mapStateToProps)(BookNotesNav);
+var Container = connect(mapStateToProps)(BookmarksNav);
 
 module.exports = Container;

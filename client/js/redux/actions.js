@@ -153,11 +153,11 @@ var setActiveCategory = function(activeCategory) {
   }
 };
 
-// PUT request to add note
-var addNote = function(title, website, note, cat_id) {
+// PUT request to add bookmark
+var addBookmark = function(title, website, note, cat_id) {
   return function(dispatch) {
     var token = Cookies.get('accessToken');
-    var url = `add-note/${cat_id}`;
+    var url = `add-bookmark/${cat_id}`;
   return fetch(url,
   {
     method: 'put',
@@ -166,7 +166,7 @@ var addNote = function(title, website, note, cat_id) {
       'title': title,
       'url': website,
       'note': note,
-      'note_id': ObjectID()
+      'bookmark_id': ObjectID()
     })
   }
     ).then(function(response) {
@@ -190,18 +190,18 @@ var addNote = function(title, website, note, cat_id) {
   }
 };
 
-// DELETE request to delete note
-var deleteNote = function(cat_id, note_id) {
+// DELETE request to delete bookmark
+var deleteBookmark = function(cat_id, bookmark_id) {
   console.log('DELETE NOTE ACTION HIT', cat_id);
   return function(dispatch) {
     var token = Cookies.get('accessToken');
-    var url = `delete-note/${cat_id}`;
+    var url = `delete-bookmark/${cat_id}`;
   return fetch(url,
   {
     method: 'delete',
     headers: {'Content-type': 'application/json', 'Authorization': 'bearer ' + token},
     body: JSON.stringify({
-      'note_id': note_id
+      'bookmark_id': bookmark_id
     })
   }
     ).then(function(response) {
@@ -236,5 +236,5 @@ exports.FETCH_USER_ERROR = FETCH_USER_ERROR;
 exports.addCategory = addCategory;
 exports.deleteCategory = deleteCategory;
 exports.setActiveCategory = setActiveCategory;
-exports.addNote = addNote;
-exports.deleteNote = deleteNote;
+exports.addBookmark = addBookmark;
+exports.deleteBookmark = deleteBookmark;

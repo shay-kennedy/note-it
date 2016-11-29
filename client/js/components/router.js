@@ -7,7 +7,11 @@ import Main from './main';
 import Login from './login';
 import MainContainer from './main-container';
 import MainLanding from './main-landing';
-import BookNotesList from './book-notes-list';
+import BookmarksList from './bookmarks-list';
+import BookmarksContainer from './bookmarks-container';
+import BookmarksLanding from './bookmarks-landing';
+import CalendarContainer from './calendar-container';
+
 
 
 var routes = (
@@ -17,7 +21,11 @@ var routes = (
 				<IndexRoute component={Login} />
 				<Route path="/knowtes" component={MainContainer} >
 					<IndexRoute component={MainLanding} />
-					<Route path="list" component={BookNotesList} />
+					<Route path="bookmarks" component={BookmarksContainer} >
+						<IndexRoute component={BookmarksLanding} />
+						<Route path="list" component={BookmarksList} />
+					</Route>
+					<Route path="calendar" component={CalendarContainer} />
 				</Route>
 			</Route>
 		</Router>

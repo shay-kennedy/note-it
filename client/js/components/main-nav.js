@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 
 const MainNav = (props) => {
 	return(
 		<div id="main-nav">
-			<p>Book-Notes</p>
+			<Link to={'/knowtes/bookmarks'}>Bookmarks</Link>
+			<Link to={'/knowtes/calendar'}>Calendar</Link>
 		</div>
 	)
 };
