@@ -12,6 +12,8 @@ const PORT = process.env.PORT || 8080;
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as BearerStrategy } from 'passport-http-bearer';
 import passport from 'passport';
+import crypto from 'crypto';
+import { GoogleTokenProvider } from 'refresh-token'; // Not using / possible fix
 import gcal from 'google-calendar';
 import bodyParser from 'body-parser';
 
@@ -29,6 +31,7 @@ mongoose.connect(db);
 app.use(passport.initialize());
 app.use(bodyParser.json());
 
+
 // Google OAuth2 Strategy
 passport.use(new GoogleStrategy({
   clientID: process.env.CLIENTID || config.googleAuth.clientID,
@@ -36,11 +39,15 @@ passport.use(new GoogleStrategy({
   callbackURL: process.env.CALLBACKURL || config.googleAuth.callbackURL,
   },
   (accessToken, refreshToken, profile, done) => {
+    // console.log('PROFILE', profile);
+    console.log('AT', accessToken);
+    console.log('RT', refreshToken);
     User.findOne({googleID: profile.id}, (err, user) => {
       if (!user) {
         User.create({
           googleID: profile.id,
           accessToken: accessToken,
+          refreshToken: refreshToken, // refreshToken is undefined
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
           displayName: profile.displayName,
@@ -54,6 +61,8 @@ passport.use(new GoogleStrategy({
     });
   }
 ));
+
+// refreshToken: profile.id + crypto.randomBytes(32).toString('hex'),
 
 app.get('/auth/google',
   passport.authenticate('google', {
