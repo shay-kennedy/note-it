@@ -18,7 +18,6 @@ var CalendarContainer = React.createClass({
 			event.time = date.toLocaleTimeString('en-us', options);
 			return <CalendarEvents key={index} event={event} />
 		});
-		console.log('HERE2', this.props);
 		return(
 			<div id="calendar-container">
 				{eventList}

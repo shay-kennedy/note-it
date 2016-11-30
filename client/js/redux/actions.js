@@ -260,7 +260,6 @@ var getCalendarEvents = function() {
       return response.json();
     })
     .then(function(events) {
-      console.log("EVENTS!", events);
       return dispatch(
         fetchEventsSuccess(events)
       );
