@@ -12,8 +12,8 @@ const PORT = process.env.PORT || 8080;
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as BearerStrategy } from 'passport-http-bearer';
 import passport from 'passport';
+import refresh from 'passport-oauth2-refresh';
 import crypto from 'crypto';
-import { GoogleTokenProvider } from 'refresh-token'; // Not using / possible fix
 import gcal from 'google-calendar';
 import bodyParser from 'body-parser';
 
@@ -47,7 +47,7 @@ passport.use(new GoogleStrategy({
         User.create({
           googleID: profile.id,
           accessToken: accessToken,
-          refreshToken: refreshToken, // refreshToken is undefined
+          refreshToken: refreshToken,
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
           displayName: profile.displayName,
@@ -62,11 +62,11 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-// refreshToken: profile.id + crypto.randomBytes(32).toString('hex'),
 
 app.get('/auth/google',
   passport.authenticate('google', {
-    scope: ['profile', 'email', 'openid', 'https://www.googleapis.com/auth/calendar.readonly']
+    scope: ['profile', 'email', 'openid', 'https://www.googleapis.com/auth/calendar.readonly'],
+    accessType: 'offline'
   })
 );
 
