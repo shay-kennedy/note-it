@@ -1,8 +1,8 @@
 module.exports = {
 
   'googleAuth' : {
-    'clientID'      : '788903332145-3dnpdk07bfns213t8rmkvfn396l1pjp8.apps.googleusercontent.com',
-    'clientSecret'  : 'pg8qNQCcWWcGjGtQcMBpYpBD',
+    'clientID'      : '825384089391-bknamt33eqvnf24e6glfpqlvmr01rpgr.apps.googleusercontent.com',
+    'clientSecret'  : 'ZU3SltU_1uBIoohVbCXvzZkC',
     'callbackURL'   : 'http://localhost:8080/auth/google/callback'
   },
   'mongoDB' : {

@@ -81,6 +81,7 @@ app.get('/auth/google/callback',
   }
 );
 
+
 // Bearer Strategy
 passport.use(new BearerStrategy(
   (token, done) => {
@@ -212,9 +213,18 @@ app.get('/calendar', passport.authenticate('bearer', {session: false}),
     google_calendar.calendarList.list(function(err, calendarList) {
       google_calendar.events.list(calendarID, query, function(err, calendarList) {
         if (err) {
-          return res.send(err)
+          // if(err.code === 401) {
+          //   refresh.requestNewAccessToken('google', user.refreshToken, function(err, accessToken) {
+          //     if(err || !accessToken) { return res.status(401).end(); }
+          //     user.save({ accessToken: accessToken }, function() {
+
+          //     });
+          //   });
+          // }
+          return res.send(err);
         }
-        return res.json(calendarList)
+        console.log('SUCCESS!!!!!');
+        return res.json(calendarList);
       });
     });
 });
